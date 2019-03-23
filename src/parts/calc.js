@@ -18,7 +18,6 @@ function calc() {
  });
  restDays.addEventListener('input', function () {
    daysSum = +this.value;
-
    if (restDays.value == '' || persons.value == '' || valid(restDays) == true) {
      totalValue.innerHTML = 0;
    } else {
@@ -42,4 +41,5 @@ function calc() {
    }
  }
 }
+
 module.exports = calc;
