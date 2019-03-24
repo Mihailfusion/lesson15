@@ -132,7 +132,7 @@ function calc() {
   persons.addEventListener('input', function () {
     personsSum = +this.value;
 
-    if (restDays.value == '' || persons.value == '' || valid(persons) == true) {
+    if (restDays.value == '' || restDays.value == 0 || persons.value == '' || persons.value == 0 || valid(persons) == true) {
       totalValue.innerHTML = 0;
     } else {
       total = (daysSum + personsSum) * 4000;
@@ -142,7 +142,7 @@ function calc() {
   restDays.addEventListener('input', function () {
     daysSum = +this.value;
 
-    if (restDays.value == '' || persons.value == '' || valid(restDays) == true) {
+    if (restDays.value == '' || restDays.value == 0 || persons.value == '' || persons.value == 0 || valid(restDays) == true) {
       totalValue.innerHTML = 0;
     } else {
       total = (daysSum + personsSum) * 4000;
@@ -150,7 +150,7 @@ function calc() {
     }
   });
   place.addEventListener('change', function () {
-    if (restDays.value == '' || persons.value == '') {
+    if (restDays.value == '' || persons.value == '' || restDays.value == '' || persons.value == 0) {
       totalValue.innerHTML = 0;
     } else {
       var a = total;
@@ -212,7 +212,7 @@ function form() {
       // });
       // let json = JSON.stringify(obj);
 
-      function postData(data) {
+      function postData() {
         return new Promise(function (resolve, reject) {
           var request = new XMLHttpRequest();
           request.open('POST', 'server.php');
@@ -228,7 +228,7 @@ function form() {
             }
           };
 
-          request.send(data);
+          request.send(formData);
         });
       }
 
