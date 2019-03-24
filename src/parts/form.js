@@ -25,18 +25,20 @@ function form() {
       elem.appendChild(statusMessage);
       statusMessage.style.paddingTop = '20px';
       statusMessage.style.color = '#c78030';
+    
       let formData = new FormData(elem);
-      let obj = {};
-      formData.forEach(function (value, key) {
-        obj[key] = value;
-      });
-      let json = JSON.stringify(obj);
+            
+      // let obj = {};
+      // formData.forEach(function (value, key) {
+      //   obj[key] = value;
+      // });
+      // let json = JSON.stringify(obj);
 
-      function postData() {
+      function postData(data) {
         return new Promise(function (resolve, reject) {
           let request = new XMLHttpRequest();
           request.open('POST', 'server.php');
-          request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+          request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
           request.onreadystatechange = function () {
             if (request.readyState < 4) {
               resolve();
@@ -46,7 +48,7 @@ function form() {
               reject();
             }
           };
-          request.send(json);
+          request.send(data);
         });
       }
 
