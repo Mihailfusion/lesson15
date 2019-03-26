@@ -34,7 +34,7 @@ function calc() {
     }
   });
 
-  place.addEventListener('input', function () {
+  place.addEventListener('change', function () {
     if (restDays.value == '' || persons.value == '') {
       totalValue.innerHTML = 0;
     } else {
