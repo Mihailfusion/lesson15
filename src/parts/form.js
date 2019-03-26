@@ -27,13 +27,13 @@ function form() {
       statusMessage.style.color = '#c78030';
     
       let formData = new FormData(elem);
-      // let obj = {};
+      let obj = {};
 
      
-      // formData.forEach(function (value, key) {
-      //   obj[key] = value;
-      // });
-      // let json = JSON.stringify(obj);
+      formData.forEach(function (value, key) {
+        obj[key] = value;
+      });
+      let json = JSON.stringify(obj);
   
         
         function postData() {
@@ -50,7 +50,7 @@ function form() {
               reject();
             }
           };
-          request.send(formData);
+          request.send(json);
         });
       }
 

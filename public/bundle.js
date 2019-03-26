@@ -93,6 +93,18 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
+if ('NodeList' in window && !NodeList.prototype.forEach) {
+  console.info('polyfill for IE11');
+
+  NodeList.prototype.forEach = function (callback, thisArg) {
+    thisArg = thisArg || window;
+
+    for (var i = 0; i < this.length; i++) {
+      callback.call(thisArg, this[i], i, this);
+    }
+  };
+}
+
 window.addEventListener("DOMContentLoaded", function () {
   'use strict';
 
@@ -130,41 +142,37 @@ function calc() {
       total = 0;
   totalValue.innerHTML = 0;
   persons.addEventListener('input', function () {
+    this.value = this.value.replace(/^0/, '');
     personsSum = +this.value;
+    total = daysSum * personsSum * 4000;
 
-    if (restDays.value == '' || restDays.value == 0 || persons.value == '' || persons.value == 0 || valid(persons) == true) {
+    if (restDays.value == '' || persons.value == '') {
       totalValue.innerHTML = 0;
     } else {
-      total = (daysSum + personsSum) * 4000;
-      totalValue.innerHTML = total;
+      var a = total;
+      totalValue.innerHTML = a * place.options[place.selectedIndex].value;
     }
   });
   restDays.addEventListener('input', function () {
+    this.value = this.value.replace(/^0/, '');
     daysSum = +this.value;
+    total = daysSum * personsSum * 4000;
 
-    if (restDays.value == '' || restDays.value == 0 || persons.value == '' || persons.value == 0 || valid(restDays) == true) {
+    if (persons.value == '' || persons.value == '') {
       totalValue.innerHTML = 0;
     } else {
-      total = (daysSum + personsSum) * 4000;
-      totalValue.innerHTML = total;
+      var a = total;
+      totalValue.innerHTML = a * place.options[place.selectedIndex].value;
     }
   });
-  place.addEventListener('change', function () {
-    if (restDays.value == '' || persons.value == '' || restDays.value == '' || persons.value == 0) {
+  place.addEventListener('input', function () {
+    if (restDays.value == '' || persons.value == '') {
       totalValue.innerHTML = 0;
     } else {
       var a = total;
       totalValue.innerHTML = a * this.options[this.selectedIndex].value;
     }
   });
-
-  function valid(inNum) {
-    if (inNum.value.match(/[,]?[.]/)) {
-      return true;
-    } else {
-      return false;
-    }
-  }
 }
 
 module.exports = calc;
@@ -206,11 +214,12 @@ function form() {
       elem.appendChild(statusMessage);
       statusMessage.style.paddingTop = '20px';
       statusMessage.style.color = '#c78030';
-      var formData = new FormData(elem); // let obj = {};
-      // formData.forEach(function (value, key) {
-      //   obj[key] = value;
-      // });
-      // let json = JSON.stringify(obj);
+      var formData = new FormData(elem);
+      var obj = {};
+      formData.forEach(function (value, key) {
+        obj[key] = value;
+      });
+      var json = JSON.stringify(obj);
 
       function postData() {
         return new Promise(function (resolve, reject) {
@@ -228,7 +237,7 @@ function form() {
             }
           };
 
-          request.send(formData);
+          request.send(json);
         });
       }
 
